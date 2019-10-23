@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.thechairproto.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "M:\\GitProj\\Simon\\CS497-9\\TheChairProto\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "TheChairProto [Testing]"
+        }
+      }
+    }
+  ]
+}
