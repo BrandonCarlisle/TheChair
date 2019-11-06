@@ -261,11 +261,6 @@ namespace Valve.VR
         public float hmd_SecondsFromVsyncToPhotons { get { return GetFloatProperty(ETrackedDeviceProperty.Prop_SecondsFromVsyncToPhotons_Float); } }
         public float hmd_DisplayFrequency { get { return GetFloatProperty(ETrackedDeviceProperty.Prop_DisplayFrequency_Float); } }
 
-        public EDeviceActivityLevel GetHeadsetActivityLevel()
-        {
-            return OpenVR.System.GetTrackedDeviceActivityLevel(OpenVR.k_unTrackedDeviceIndex_Hmd);
-        }
-
         public string GetTrackedDeviceString(uint deviceId)
         {
             var error = ETrackedPropertyError.TrackedProp_Success;
@@ -385,63 +380,32 @@ namespace Valve.VR
             Application.OpenURL(bindingurl); //todo: update with the actual api call
         }
 
-        public static string GetSteamVRFolderParentPath(bool localToAssetsFolder = false)
+
+
+
+        public static string GetResourcesFolderPath(bool fromAssetsDirectory = false)
         {
             SteamVR_Settings asset = ScriptableObject.CreateInstance<SteamVR_Settings>();
             UnityEditor.MonoScript scriptAsset = UnityEditor.MonoScript.FromScriptableObject(asset);
 
             string scriptPath = UnityEditor.AssetDatabase.GetAssetPath(scriptAsset);
 
-            System.IO.FileInfo settingsScriptFileInfo = new System.IO.FileInfo(scriptPath);
+            System.IO.FileInfo fi = new System.IO.FileInfo(scriptPath);
+            string rootPath = fi.Directory.Parent.ToString();
 
-            string fullPath = settingsScriptFileInfo.Directory.Parent.Parent.FullName;
+            string resourcesPath = System.IO.Path.Combine(rootPath, "Resources");
 
-            if (localToAssetsFolder == false)
-                return fullPath;
-            else
+            resourcesPath = resourcesPath.Replace("//", "/");
+            resourcesPath = resourcesPath.Replace("\\\\", "\\");
+            resourcesPath = resourcesPath.Replace("\\", "/");
+
+            if (fromAssetsDirectory)
             {
-                System.IO.DirectoryInfo assetsDirectoryInfo = new DirectoryInfo(Application.dataPath);
-                string localPath = fullPath.Substring(assetsDirectoryInfo.Parent.FullName.Length + 1); //plus separator char
-                return localPath;
+                int assetsIndex = resourcesPath.IndexOf("/Assets/");
+                resourcesPath = resourcesPath.Substring(assetsIndex + 1);
             }
-        }
 
-        public static string GetSteamVRFolderPath(bool localToAssetsFolder = false)
-        {
-            SteamVR_Settings asset = ScriptableObject.CreateInstance<SteamVR_Settings>();
-            UnityEditor.MonoScript scriptAsset = UnityEditor.MonoScript.FromScriptableObject(asset);
-
-            string scriptPath = UnityEditor.AssetDatabase.GetAssetPath(scriptAsset);
-
-            System.IO.FileInfo settingsScriptFileInfo = new System.IO.FileInfo(scriptPath);
-            string fullPath = settingsScriptFileInfo.Directory.Parent.FullName;
-
-
-            if (localToAssetsFolder == false)
-                return fullPath;
-            else
-            {
-                System.IO.DirectoryInfo assetsDirectoryInfo = new DirectoryInfo(Application.dataPath);
-                string localPath = fullPath.Substring(assetsDirectoryInfo.Parent.FullName.Length + 1); //plus separator char
-                return localPath;
-            }
-        }
-
-        public static string GetSteamVRResourcesFolderPath(bool localToAssetsFolder = false)
-        {
-            string basePath = GetSteamVRFolderParentPath(localToAssetsFolder);
-
-            string folderPath = Path.Combine(basePath, "SteamVR_Resources");
-
-            if (Directory.Exists(folderPath) == false)
-                Directory.CreateDirectory(folderPath);
-
-            string resourcesFolderPath = Path.Combine(folderPath, "Resources");
-
-            if (Directory.Exists(resourcesFolderPath) == false)
-                Directory.CreateDirectory(resourcesFolderPath);
-
-            return resourcesFolderPath;
+            return resourcesPath;
         }
 #endif
 
@@ -478,7 +442,7 @@ namespace Valve.VR
 
             string fullPath = Path.Combine(currentPath, "unityProject.vrmanifest");
 
-            FileInfo fullManifestPath = new FileInfo(SteamVR_Input.GetActionsFilePath());
+            FileInfo fullManifestPath = new FileInfo(SteamVR_Settings.instance.actionsFilePath);
 
             if (File.Exists(fullPath))
             {
@@ -566,12 +530,6 @@ namespace Valve.VR
         private static void IdentifyEditorApplication(bool showLogs = true)
         {
             //bool isInstalled = OpenVR.Applications.IsApplicationInstalled(SteamVR_Settings.instance.editorAppKey);
-
-            if (string.IsNullOrEmpty(SteamVR_Settings.instance.editorAppKey))
-            {
-                Debug.LogError("<b>[SteamVR]</b> Critical Error identifying application. EditorAppKey is null or empty. Input may not work.");
-                return;
-            }
 
             string manifestPath = GetManifestFile();
 
