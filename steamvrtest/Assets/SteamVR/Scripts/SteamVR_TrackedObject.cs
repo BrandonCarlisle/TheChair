@@ -108,5 +108,15 @@ namespace Valve.VR
             if (System.Enum.IsDefined(typeof(EIndex), index))
                 this.index = (EIndex)index;
         }
+
+
+        void Update()
+        {
+            if (Input.GetKey(KeyCode.P))
+            {
+                this.index++;
+            }
+
+        }
     }
 }
