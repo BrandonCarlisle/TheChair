@@ -6,7 +6,7 @@
 
 using UnityEngine;
 using Valve.VR;
-
+using System.Collections;
 namespace Valve.VR
 {
     public class SteamVR_TrackedObject : MonoBehaviour
@@ -112,11 +112,30 @@ namespace Valve.VR
 
         void Update()
         {
-            if (Input.GetKey(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.P))
             {
-                this.index++;
+                if (this.index <= (EIndex)15)
+                {
+                    this.index++;
+                    Debug.Log("Index for tracker is now " + index);
+                }
+                else
+                {
+                    this.index = (EIndex)0;
+                    Debug.Log("Index for tracker is now " + index);
+                }
+                    // StartCoroutine(Wait());
+                
             }
 
         }
-    }
+
+        //IEnumerator Wait()
+        //{
+           
+        //    yield return new WaitForSeconds(1);
+        //}
+
+          
+        }
 }
