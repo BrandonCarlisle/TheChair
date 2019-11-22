@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.steamvrtest.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Users\\baird013\\Documents\\GitHub\\TheChair\\steamvrtest\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "action_manifest_path": "M:\\GitProj\\Simon\\TheChair\\steamvrtest\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "steamvrtest [Testing]"
