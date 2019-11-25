@@ -25,7 +25,8 @@ public class Button : MonoBehaviour
         if (collision.collider.tag == "Hand" && hasBeenPressed == false)
         {
             hasBeenPressed = true;
-            Instantiate(prefab, new Vector3(-6.73f, 8.486f, 2.297f), Quaternion.identity);
+            var obj = Instantiate(prefab, new Vector3(-6.600503f, 8.054f, 2.155f), Quaternion.identity);
+            
             Debug.Log("------------Button Pressed by Hand");
         }
     }

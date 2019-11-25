@@ -5,11 +5,10 @@ using UnityEngine;
 public class BallPlaceScript : MonoBehaviour
 {
     private bool hasBeenPlaced = false;
-    public GameObject objectCollindingWith;
-    public GameObject moveableWall;
+    private bool moveWall = false;
     //ReferencedScript wallMove = 
     //public moveWall wallscript;
-    private bool moveWall = false;
+    
         // Start is called before the first frame update
     void Start()
     {
@@ -21,21 +20,23 @@ public class BallPlaceScript : MonoBehaviour
     {
         if (moveWall)
         {
-            Vector3 pos = moveableWall.transform.position;
+            Vector3 pos = moveableWall[0].transform.position;
             pos.y -= .05f;
-            moveableWall.transform.position = pos;
+            moveableWall[0].transform.position = pos;
         }
     }
-
+    private GameObject[] moveableWall;
 
     private void OnCollisionEnter(Collision collision)
     {
        // print("Detected collision between " + gameObject.name + " and " + collision.gameObject.name);
         //if (collision.gameObject == leftHand || collision.gameObject == rightHand)
-        if (collision.gameObject == objectCollindingWith && hasBeenPlaced == false)
+        if (collision.collider.tag == "Target" && hasBeenPlaced == false)
         {
-            Debug.Log("------------Object Has been placed");
+            Debug.Log("------------Target has been hit by ball");
             hasBeenPlaced = true;
+            
+            moveableWall = GameObject.FindGameObjectsWithTag("moveWall");
             Debug.Log("wall moving down");
             moveWall = true;
             // wallscript.MoveWallDown();
