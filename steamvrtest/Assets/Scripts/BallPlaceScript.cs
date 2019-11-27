@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class BallPlaceScript : MonoBehaviour
 {
-    private bool hasBeenPlaced = false;
+    // private bool hasBeenPlaced = false;
     private bool moveWall = false;
     //ReferencedScript wallMove = 
     //public moveWall wallscript;
-    
-        // Start is called before the first frame update
+    // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -26,21 +25,35 @@ public class BallPlaceScript : MonoBehaviour
         }
     }
     private GameObject[] moveableWall;
+    public Material newMaterialRef;
+    private bool haveOriginalColor = false;
+    private Material originalColor;
 
     private void OnCollisionEnter(Collision collision)
     {
-       // print("Detected collision between " + gameObject.name + " and " + collision.gameObject.name);
-        //if (collision.gameObject == leftHand || collision.gameObject == rightHand)
-        if (collision.collider.tag == "Target" && hasBeenPlaced == false)
+        if (collision.collider.tag == "Target")
         {
-            Debug.Log("------------Target has been hit by ball");
-            hasBeenPlaced = true;
-            
-            moveableWall = GameObject.FindGameObjectsWithTag("moveWall");
-            Debug.Log("wall moving down");
+            if (!haveOriginalColor)
+            {
+              originalColor = collision.gameObject.GetComponent<Material>();
+              haveOriginalColor = true;
+            }
+            Renderer ren = collision.gameObject.GetComponent<Renderer>();
+            Debug.Log("------------Target has been placed by cube");
+            ren.material.color = Color.green;
+
+            moveableWall = GameObject.FindGameObjectsWithTag("moveWall");        
             moveWall = true;
-            // wallscript.MoveWallDown();
-            //Instantiate(prefab, new Vector3(-6.73f, 8.486f, 2.297f), Quaternion.identity);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.tag == "Target")
+        {
+            Debug.Log("------------Target has been removed by cube");
+            Renderer ren = collision.gameObject.GetComponent<Renderer>();
+            ren.material.color = Color.red;
         }
     }
 }

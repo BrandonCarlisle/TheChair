@@ -7,6 +7,7 @@ public class SpawnBall : MonoBehaviour
 {
     public Transform prefab;
     private int hasBeenPressed = 0;
+    public GameObject spawnLocation;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +27,7 @@ public class SpawnBall : MonoBehaviour
         {
             if (hasBeenPressed >= 2)
             {
-                Instantiate(prefab, new Vector3(-6.73f, 8.486f, 2.297f), Quaternion.identity);
+                Instantiate(prefab, /*new Vector3(-6.73f, 8.486f, 2.297f)*/spawnLocation.transform.position, Quaternion.identity);
                 Debug.Log("------------Button Pressed by projectile");
             }
             else
@@ -34,5 +35,9 @@ public class SpawnBall : MonoBehaviour
                 hasBeenPressed++;
             }
        }
+        else if (collision.collider.tag == "hand")
+        {
+
+        }
     }
 }
