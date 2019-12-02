@@ -8,13 +8,15 @@ public class move : MonoBehaviour
     public GameObject spawner;
     Vector3 movefloor;
     Vector3 movespawner;
-
+    public bool shouldMoveUp;
     float max = 10.4f;
-    float start = 0.0f;
+    float start;
+    float current;
   // Start is called before the first frame update
   void Start()
     {
-      //  start = this.transform.position.y;
+        start = this.transform.position.y;
+        current = start;
        // movefloor = transform.position;
        // movespawner = spawner.transform.position;
     }
@@ -26,15 +28,17 @@ public class move : MonoBehaviour
         //this.transform.position= movefloor;
         //spawner.transform.position = movespawner;
         
-        if (start < max)
+        if (current < max && shouldMoveUp)
         {
             this.transform.position = this.transform.position + new Vector3(0, 0.01f, 0);
             spawner.transform.position = spawner.transform.position + new Vector3(0, 0.01f, 0);
-            start += 0.01f;
+            current += 0.01f;
         }
-        else
+        else if(current > start && !shouldMoveUp)
         {
-
+            this.transform.position = this.transform.position + new Vector3(0, -0.01f, 0);
+            spawner.transform.position = spawner.transform.position + new Vector3(0, -0.01f, 0);
+            current -= 0.01f;
         }
 
     }

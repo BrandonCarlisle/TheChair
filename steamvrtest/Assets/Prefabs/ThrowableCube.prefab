@@ -389,6 +389,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96401115af3ef2547bfc2e9d64cfb40f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  floorMoveUp: {fileID: 2376528654345511939, guid: c3d3b9b20f9838e49bc3794daeba9b6d,
+    type: 3}
   newMaterialRef: {fileID: 2100000, guid: 40b02681bc31f7d4e8eef65f87b31b98, type: 2}
 --- !u!114 &278865817477023589
 MonoBehaviour:
