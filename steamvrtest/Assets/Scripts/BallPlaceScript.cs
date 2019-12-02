@@ -6,6 +6,7 @@ public class BallPlaceScript : MonoBehaviour
 {
     // private bool hasBeenPlaced = false;
     private bool moveWall = false;
+    public GameObject floorMoveUp;
     //ReferencedScript wallMove = 
     //public moveWall wallscript;
     // Start is called before the first frame update
@@ -25,35 +26,57 @@ public class BallPlaceScript : MonoBehaviour
         }
     }
     private GameObject[] moveableWall;
-    public Material newMaterialRef;
-    private bool haveOriginalColor = false;
-    private Material originalColor;
+    private GameObject[] moveFloorUp;
 
+    public Material newMaterialRef;
+    //private bool haveOriginalColor = false;
+    //private Material originalColor;
+    move moveScript;
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "Target")
+        if (collision.collider.tag == "moveWallTarget")
         {
-            if (!haveOriginalColor)
-            {
-              originalColor = collision.gameObject.GetComponent<Material>();
-              haveOriginalColor = true;
-            }
+            //if (!haveOriginalColor)
+            //{
+            //  originalColor = collision.gameObject.GetComponent<Material>();
+            //  haveOriginalColor = true;
+            //}
             Renderer ren = collision.gameObject.GetComponent<Renderer>();
-            Debug.Log("------------Target has been placed by cube");
+            Debug.Log("------------moveWallTarget has been triggered by cube");
             ren.material.color = Color.green;
 
             moveableWall = GameObject.FindGameObjectsWithTag("moveWall");        
             moveWall = true;
         }
+        if (collision.collider.tag == "moveFloorUpTarget")
+        {
+          
+            Renderer ren = collision.gameObject.GetComponent<Renderer>();
+            Debug.Log("------------moveFloorUpTarget has been triggered by cube");
+            ren.material.color = Color.green;
+
+            moveFloorUp = GameObject.FindGameObjectsWithTag("moveWall");
+            moveScript = GetComponent<move>();
+            moveScript.shouldMoveUp = true;
+            
+        }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.collider.tag == "Target")
+        if (collision.collider.tag == "moveWallTarget")
         {
-            Debug.Log("------------Target has been removed by cube");
+            Debug.Log("------------moveWallTarget has been removed by cube");
             Renderer ren = collision.gameObject.GetComponent<Renderer>();
             ren.material.color = Color.red;
+        }
+        else if (collision.collider.tag == "moveFloorUpTarget")
+        {
+            Debug.Log("------------moveFloorUpTarget has been removed by cube");
+            Renderer ren = collision.gameObject.GetComponent<Renderer>();
+            ren.material.color = Color.red;
+            moveScript.shouldMoveUp = false;
+
         }
     }
 }
