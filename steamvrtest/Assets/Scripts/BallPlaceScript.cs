@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class BallPlaceScript : MonoBehaviour
 {
-    private bool hasBeenPlaced = false;
-    public GameObject objectCollindingWith;
-    public GameObject moveableWall;
+    // private bool hasBeenPlaced = false;
+    private bool moveWall = false;
+    public GameObject floorMoveUp;
     //ReferencedScript wallMove = 
     //public moveWall wallscript;
-    private bool moveWall = false;
-        // Start is called before the first frame update
+    // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -21,25 +20,63 @@ public class BallPlaceScript : MonoBehaviour
     {
         if (moveWall)
         {
-            Vector3 pos = moveableWall.transform.position;
+            Vector3 pos = moveableWall[0].transform.position;
             pos.y -= .05f;
-            moveableWall.transform.position = pos;
+            moveableWall[0].transform.position = pos;
+        }
+    }
+    private GameObject[] moveableWall;
+    private GameObject[] moveFloorUp;
+
+    public Material newMaterialRef;
+    //private bool haveOriginalColor = false;
+    //private Material originalColor;
+    move moveScript;
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "moveWallTarget")
+        {
+            //if (!haveOriginalColor)
+            //{
+            //  originalColor = collision.gameObject.GetComponent<Material>();
+            //  haveOriginalColor = true;
+            //}
+            Renderer ren = collision.gameObject.GetComponent<Renderer>();
+            Debug.Log("------------moveWallTarget has been triggered by cube");
+            ren.material.color = Color.green;
+
+            moveableWall = GameObject.FindGameObjectsWithTag("moveWall");        
+            moveWall = true;
+        }
+        if (collision.collider.tag == "moveFloorUpTarget")
+        {
+          
+            Renderer ren = collision.gameObject.GetComponent<Renderer>();
+            Debug.Log("------------moveFloorUpTarget has been triggered by cube");
+            ren.material.color = Color.green;
+
+            moveFloorUp = GameObject.FindGameObjectsWithTag("moveWall");
+            moveScript = GetComponent<move>();
+            moveScript.shouldMoveUp = true;
+            
         }
     }
 
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionExit(Collision collision)
     {
-       // print("Detected collision between " + gameObject.name + " and " + collision.gameObject.name);
-        //if (collision.gameObject == leftHand || collision.gameObject == rightHand)
-        if (collision.gameObject == objectCollindingWith && hasBeenPlaced == false)
+        if (collision.collider.tag == "moveWallTarget")
         {
-            Debug.Log("------------Object Has been placed");
-            hasBeenPlaced = true;
-            Debug.Log("wall moving down");
-            moveWall = true;
-            // wallscript.MoveWallDown();
-            //Instantiate(prefab, new Vector3(-6.73f, 8.486f, 2.297f), Quaternion.identity);
+            Debug.Log("------------moveWallTarget has been removed by cube");
+            Renderer ren = collision.gameObject.GetComponent<Renderer>();
+            ren.material.color = Color.red;
+        }
+        else if (collision.collider.tag == "moveFloorUpTarget")
+        {
+            Debug.Log("------------moveFloorUpTarget has been removed by cube");
+            Renderer ren = collision.gameObject.GetComponent<Renderer>();
+            ren.material.color = Color.red;
+            moveScript.shouldMoveUp = false;
+
         }
     }
 }

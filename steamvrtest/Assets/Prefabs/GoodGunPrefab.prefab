@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 508571543379997975}
   - component: {fileID: 508571543379997969}
   - component: {fileID: 508571543379997968}
+  - component: {fileID: -2589661699399969817}
   m_Layer: 0
   m_Name: GoodGunPrefab
   m_TagString: Untagged
@@ -305,6 +306,18 @@ MonoBehaviour:
   previewPoseSelection: 0
   blendingBehaviours: []
   scale: 1
+--- !u!114 &-2589661699399969817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506672817178912890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87a74a9ab530f3143b963768416612a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &508571542705733242
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,12 @@ TagManager:
   tags:
   - projectile
   - FxTemporaire
+  - Hand
+  - Target
+  - moveWall
+  - chairHolster
+  - moveWallTarget
+  - moveFloorUpTarget
   layers:
   - Default
   - TransparentFX

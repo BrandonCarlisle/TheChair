@@ -27,7 +27,7 @@ public class Gun : MonoBehaviour
     private AudioSource m_bulletSound = null;
 
     //Used to hold attached hand to gun
-    private Hand m_attachedHand = null;
+    public static Hand m_attachedHand = null;
 
     //Used to handle which hand is holding gun
     private SteamVR_Input_Sources m_controller;
