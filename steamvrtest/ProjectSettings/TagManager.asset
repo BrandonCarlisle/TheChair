@@ -12,6 +12,7 @@ TagManager:
   - chairHolster
   - moveWallTarget
   - moveFloorUpTarget
+  - moveFloorUp
   layers:
   - Default
   - TransparentFX

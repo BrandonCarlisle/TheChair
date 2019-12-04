@@ -55,8 +55,8 @@ public class BallPlaceScript : MonoBehaviour
             Debug.Log("------------moveFloorUpTarget has been triggered by cube");
             ren.material.color = Color.green;
 
-            moveFloorUp = GameObject.FindGameObjectsWithTag("moveWall");
-            moveScript = GetComponent<move>();
+            moveFloorUp = GameObject.FindGameObjectsWithTag("moveFloorUp");
+            moveScript = moveFloorUp[0].GetComponent<move>();
             moveScript.shouldMoveUp = true;
             
         }
@@ -75,8 +75,9 @@ public class BallPlaceScript : MonoBehaviour
             Debug.Log("------------moveFloorUpTarget has been removed by cube");
             Renderer ren = collision.gameObject.GetComponent<Renderer>();
             ren.material.color = Color.red;
+            moveFloorUp = GameObject.FindGameObjectsWithTag("moveFloorUp");
+            moveScript = moveFloorUp[0].GetComponent<move>();
             moveScript.shouldMoveUp = false;
-
         }
     }
 }
