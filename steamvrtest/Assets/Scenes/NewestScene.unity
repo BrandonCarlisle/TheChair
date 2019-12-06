@@ -7908,8 +7908,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96401115af3ef2547bfc2e9d64cfb40f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectCollindingWith: {fileID: 294296995}
-  moveableWall: {fileID: 129186961}
+  floorMoveUp: {fileID: 0}
+  newMaterialRef: {fileID: 0}
 --- !u!1001 &1181799637
 PrefabInstance:
   m_ObjectHideFlags: 0
