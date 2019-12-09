@@ -8,7 +8,7 @@ public class SpawnBall : MonoBehaviour
     public Transform prefab;
     private int hasBeenPressed = 0;
     public GameObject spawnLocation;
-    private bool shouldSpawn = true;
+    public bool shouldSpawn = true;
     // Start is called before the first frame update
     void Start()
     {

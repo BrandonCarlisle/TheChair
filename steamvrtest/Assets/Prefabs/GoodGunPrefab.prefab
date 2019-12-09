@@ -275,7 +275,7 @@ MonoBehaviour:
     type: 3}
   m_bulletSpawnLocation: {fileID: 508571543645695647}
   m_bulletSpeed: 15
-  m_bulletTravelTime: 2
+  m_bulletTravelTime: 7
   m_bulletSound: {fileID: 508571542705733237}
 --- !u!114 &508571543379997968
 MonoBehaviour:

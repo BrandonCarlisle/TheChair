@@ -8,13 +8,14 @@ public class move : MonoBehaviour
     float max;
     float start;
     float current;
-
+    public float upAmount;
+    public float speed;
   // Start is called before the first frame update
   void Start()
     {
         start = this.transform.position.y;
         current = start;
-        max = 11f + start;
+        max = upAmount + start;
     }
 
     // Update is called once per frame
@@ -23,12 +24,12 @@ public class move : MonoBehaviour
   
         if (current < max && shouldMoveUp)
         {
-            this.transform.position = this.transform.position + new Vector3(0, 0.01f, 0);
+            this.transform.position = this.transform.position + new Vector3(0, speed, 0);
             current += 0.01f;
         }
         else if(current > start && !shouldMoveUp)
         {
-            this.transform.position = this.transform.position + new Vector3(0, -0.01f, 0);
+            this.transform.position = this.transform.position + new Vector3(0, -speed, 0);
             current -= 0.01f;
         }
 

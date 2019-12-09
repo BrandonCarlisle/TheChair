@@ -4,16 +4,11 @@ using UnityEngine;
 
 public class BallPlaceScript : MonoBehaviour
 {
-    // private bool hasBeenPlaced = false;
     private bool moveWall = false;
-    public GameObject floorMoveUp;
-    //ReferencedScript wallMove = 
-    //public moveWall wallscript;
-    // Start is called before the first frame update
-    void Start()
-    {
+    private bool moveOtherWall = false;
 
-    }
+    public GameObject floorMoveUp;
+  
 
     // Update is called once per frame
     void Update()
@@ -24,13 +19,19 @@ public class BallPlaceScript : MonoBehaviour
             pos.y -= .05f;
             moveableWall[0].transform.position = pos;
         }
+        if(moveOtherWall)
+        {
+            Vector3 pos = moveableOtherWall[0].transform.position;
+            pos.y -= .05f;
+            moveableOtherWall[0].transform.position = pos;
+        }
     }
     private GameObject[] moveableWall;
+    private GameObject[] moveableOtherWall;
+
     private GameObject[] moveFloorUp;
 
     public Material newMaterialRef;
-    //private bool haveOriginalColor = false;
-    //private Material originalColor;
     move moveScript;
     private void OnCollisionEnter(Collision collision)
     {
@@ -48,7 +49,7 @@ public class BallPlaceScript : MonoBehaviour
             moveableWall = GameObject.FindGameObjectsWithTag("moveWall");        
             moveWall = true;
         }
-        if (collision.collider.tag == "moveFloorUpTarget")
+        else if (collision.collider.tag == "moveFloorUpTarget")
         {
           
             Renderer ren = collision.gameObject.GetComponent<Renderer>();
@@ -59,6 +60,16 @@ public class BallPlaceScript : MonoBehaviour
             moveScript = moveFloorUp[0].GetComponent<move>();
             moveScript.shouldMoveUp = true;
             
+        }
+        else if (collision.collider.tag == "moveOtherWallTarget")
+        {
+          
+            Renderer ren = collision.gameObject.GetComponent<Renderer>();
+            Debug.Log("------------moveOtherWallTarget has been triggered by cube");
+            ren.material.color = Color.green;
+
+            moveableWall = GameObject.FindGameObjectsWithTag("moveOtherWall");
+            moveWall = true;
         }
     }
 

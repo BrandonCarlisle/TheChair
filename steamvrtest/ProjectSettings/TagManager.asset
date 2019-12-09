@@ -13,6 +13,8 @@ TagManager:
   - moveWallTarget
   - moveFloorUpTarget
   - moveFloorUp
+  - moveOtherWallTarget
+  - moveOtherWall
   layers:
   - Default
   - TransparentFX
