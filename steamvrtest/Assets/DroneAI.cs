@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DroneAI : MonoBehaviour
 {
+    UnityEvent droneHit;
+
     // Start is called before the first frame update
     public Rigidbody body;
 
@@ -16,9 +19,10 @@ public class DroneAI : MonoBehaviour
 
     public List<GameObject> movePoints;
     public List<GameObject> initMovePoints;
-    float traverseSpeed = 2f;
+    public int healthPoints = 6;
+    float traverseSpeed = 3.5f;
     float moveTimer = 0f;
-    float moveInterval = 5f;
+    float moveInterval = 2f;
 
     float flutter = 0.5f;
     float flutterspeed = 0.005f;
@@ -42,6 +46,20 @@ public class DroneAI : MonoBehaviour
         body = GetComponent<Rigidbody>();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "projectile")
+        {
+            Hit();
+        }
+    }
+
+    public void Hit()
+    {
+        healthPoints -= 1;
+        if (healthPoints == 0)
+            isDead = true;
+    }
 
     void Shoot()
     {
@@ -171,7 +189,10 @@ public class DroneAI : MonoBehaviour
 
         flutterDrone();
 
-        transform.LookAt(tempPlayer.transform);
+        var targetRotation = Quaternion.LookRotation(tempPlayer.transform.position - transform.position);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 3f * Time.deltaTime);
+
 
         if (shootTimer > shootInterval)
         {

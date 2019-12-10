@@ -12,6 +12,8 @@ TagManager:
   - chairHolster
   - moveWallTarget
   - moveFloorUpTarget
+  - AIDrone
+  - droneProjectile
   layers:
   - Default
   - TransparentFX
