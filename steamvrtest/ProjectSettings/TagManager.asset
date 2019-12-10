@@ -15,6 +15,7 @@ TagManager:
   - moveFloorUp
   - moveOtherWallTarget
   - moveOtherWall
+  - AIDrone
   layers:
   - Default
   - TransparentFX

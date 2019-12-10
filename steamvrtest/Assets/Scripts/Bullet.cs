@@ -10,6 +10,15 @@ public class Bullet : MonoBehaviour
         
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag != "AIDrone")
+        {
+            Destroy(gameObject);
+        }
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
