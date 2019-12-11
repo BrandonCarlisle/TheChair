@@ -8,11 +8,14 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts
 {
-    class DroneScript : MonoBehaviour
+    public class DroneScript : MonoBehaviour
     {
-        UnityEvent droneHit;
+        public int spawnerID = 0;
 
         // Start is called before the first frame update
+        public GameObject eventManager;
+        private EventManager events;
+
         private Rigidbody body;
 
         public GameObject tempPlayer;
@@ -35,6 +38,7 @@ namespace Assets.Scripts
         bool flutterUp = true;
 
         bool moving = false;
+        bool playerTargeted = false;
         int moveTo = 0;
 
         public float shootInterval = 2f;
@@ -49,6 +53,8 @@ namespace Assets.Scripts
         void Start()
         {
             body = GetComponent<Rigidbody>();
+
+            events = eventManager.GetComponent<EventManager>();
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -61,6 +67,8 @@ namespace Assets.Scripts
 
         public void Hit()
         {
+            events.playSoundAt.Invoke("dronehit", gameObject.transform.position);
+
             healthPoints -= 1;
             if (healthPoints == 0)
                 isDead = true;
@@ -72,6 +80,7 @@ namespace Assets.Scripts
             GameObject bulletObj = Instantiate(bullet, shootPoint.transform.position, shootPoint.transform.rotation) as GameObject;
             bulletObj.GetComponent<Rigidbody>().velocity = (shootPoint.transform.forward * bulletSpeed);
 
+            events.playSoundAt.Invoke("laser2", gameObject.transform.position);
 
             Destroy(bulletObj, bulletTime);
         }
@@ -159,6 +168,29 @@ namespace Assets.Scripts
             }
         }
 
+
+        void CheckTarget()
+        {
+            float dist = Vector3.Distance(tempPlayer.transform.position, transform.position);
+
+            if (dist > 40f)
+            {
+                if (playerTargeted)
+                {
+                    playerTargeted = false;
+
+                }
+            }
+            else
+            {
+                if (!playerTargeted)
+                {
+                    events.playSoundAt.Invoke("droneAlerted", gameObject.transform.position);
+                    playerTargeted = true;
+                }
+            }
+        }
+
         // Update is called once per frame
         void Update()
         {
@@ -167,11 +199,18 @@ namespace Assets.Scripts
             {
                 if (!deathTriggered)
                 {
+                    var events = eventManager.GetComponent<EventManager>();
+                    events.spawnKilled.Invoke(spawnerID);
+
+                    events.playSoundAt.Invoke("droneDeath", gameObject.transform.position);
+
                     body.useGravity = true;
                     deathTriggered = true;
                 }
                 return;
             }
+
+            CheckTarget();
 
 
             if (initalMoves)
@@ -194,16 +233,21 @@ namespace Assets.Scripts
 
             flutterDrone();
 
-            var targetRotation = Quaternion.LookRotation(tempPlayer.transform.position - transform.position);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 3f * Time.deltaTime);
 
 
-            if (shootTimer > shootInterval)
+
+            if (playerTargeted)
             {
-                Shoot();
-                shootTimer = 0f;
+                var targetRotation = Quaternion.LookRotation(tempPlayer.transform.position - transform.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 3f * Time.deltaTime);
+
+                if (shootTimer > shootInterval)
+                {
+                    Shoot();
+                    shootTimer = 0f;
+                }
             }
+
 
 
         }
