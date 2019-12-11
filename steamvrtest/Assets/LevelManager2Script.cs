@@ -5,11 +5,16 @@ using UnityEngine;
 public class LevelManager2Script : MonoBehaviour
 {
     public GameObject eventManager;
+    public GameObject doorLight;
+    public GameObject door;
 
     private EventManager events;
 
     public int state = 0;
     private bool newState = false;
+
+    private bool spawn1Disabled = false;
+    private bool spawn2Disabled = false;
 
     private int spawnsDisabled = 0;
 
@@ -22,6 +27,21 @@ public class LevelManager2Script : MonoBehaviour
         events.droneKilled.AddListener(droneKilled);
         events.spawnDisabled.AddListener(spawnDisabled);
         events.spawnRenabled.AddListener(spawnRenabled);
+
+        var doorScript = door.GetComponent<doorOpenScript>();
+        doorScript.doorToggle = true;
+        ChangeLightColor(Color.red);
+    }
+
+    void ChangeLightColor(Color color)
+    {
+        var doorLightRender = doorLight.GetComponent<Renderer>();
+        Material mat = doorLightRender.material;
+
+        float emission = Mathf.PingPong(Time.time, 1.0f);
+        Color baseColor = color;
+
+        mat.SetColor("_EmissionColor", baseColor);
     }
 
     void levelState(int nextState)
@@ -41,19 +61,24 @@ public class LevelManager2Script : MonoBehaviour
 
     void spawnDisabled(int i)
     {
-        spawnsDisabled += 1;
-        if (spawnsDisabled == 2)
-        {
+        if (i == 1)
+            spawn1Disabled = true;
+
+        if (i == 2)
+            spawn2Disabled = true;
+
+        if (spawn1Disabled && spawn2Disabled)
             levelState(3);
-        }
+
     }
 
     void spawnRenabled(int i)
     {
-        if (state < 3)
-        {
-            spawnsDisabled -= 1;
-        }    
+        if (i == 1)
+            spawn1Disabled = false;
+
+        if (i == 2)
+            spawn2Disabled = false;
     }
 
     // Update is called once per frame
@@ -105,6 +130,11 @@ public class LevelManager2Script : MonoBehaviour
     {
         if (newState)
         {
+            var doorScript = door.GetComponent<doorOpenScript>();
+            doorScript.doorToggle = true;
+
+            ChangeLightColor(Color.green);
+
             events.playVoiceLine.Invoke("second3");
             newState = false;
         }
