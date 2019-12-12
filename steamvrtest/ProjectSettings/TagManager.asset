@@ -16,6 +16,10 @@ TagManager:
   - moveOtherWallTarget
   - moveOtherWall
   - AIDrone
+  - playerHitBox
+  - droneBlast
+  - shootButton
+  - boxItem
   layers:
   - Default
   - TransparentFX

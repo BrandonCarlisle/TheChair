@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-
-public class DroneDropScript : MonoBehaviour
+public class boxButtonScript : MonoBehaviour
 {
     public GameObject eventManager;
     private EventManager events;
 
-    public int spawnerID = 0;
+    public int boxPlaceID = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +17,7 @@ public class DroneDropScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.tag == "AIDrone")
+        if (collider.tag == "boxItem")
         {
             CheckState(collider);
         }
@@ -28,13 +25,12 @@ public class DroneDropScript : MonoBehaviour
 
     private void OnTriggerExit(Collider collider)
     {
-        if (collider.tag == "AIDrone")
-        {        
+        if (collider.tag == "boxItem")
+        {
             CheckState(collider);
         }
     }
 
-    
     private void CheckState(Collider collider)
     {
         var spawnCol = gameObject.GetComponent<BoxCollider>();
@@ -43,7 +39,7 @@ public class DroneDropScript : MonoBehaviour
             var childrends = gameObject.GetComponentsInChildren<Renderer>();
             foreach (var childrend in childrends)
             {
-                events.spawnDisabled.Invoke(spawnerID);
+                events.boxPlaced.Invoke(boxPlaceID);
                 events.playSoundAt.Invoke("placedOn", .5f, gameObject.transform.position);
                 childrend.material.color = Color.green;
             }
@@ -53,18 +49,12 @@ public class DroneDropScript : MonoBehaviour
             var childrends = gameObject.GetComponentsInChildren<Renderer>();
             foreach (var childrend in childrends)
             {
-                events.spawnEnabled.Invoke(spawnerID);
+                events.boxRemoved.Invoke(boxPlaceID);
                 events.playSoundAt.Invoke("placedOff", .5f, gameObject.transform.position);
                 childrend.material.color = Color.red;
             }
-            
+
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-       // var events = eventManager.GetComponent<EventManagerL2>();
-       // events.spawnDisabled.Invoke(spawnerID);
-    }
 }

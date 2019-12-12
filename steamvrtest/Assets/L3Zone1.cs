@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class L2Zone3 : MonoBehaviour
+public class L3Zone1 : MonoBehaviour
 {
     public GameObject eventManager;
     private EventManager events;
@@ -16,7 +16,7 @@ public class L2Zone3 : MonoBehaviour
     {
         if (collider.tag == "Player")
         {
-            events.levelStateTrigger.Invoke(6);
+            events.levelStateTrigger.Invoke(1);
         }
     }
 }

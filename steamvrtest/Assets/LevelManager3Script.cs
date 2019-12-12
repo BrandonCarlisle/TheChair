@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelManager2Script : MonoBehaviour
+public class LevelManager3Script : MonoBehaviour
 {
     public GameObject player;
     public GameObject playerRespawn;
@@ -19,8 +19,10 @@ public class LevelManager2Script : MonoBehaviour
 
     private bool spawn1Disabled = false;
     private bool spawn2Disabled = false;
+    private bool boxPlaced = false;
 
-    private int spawnsDisabled = 0;
+    private int platformPos = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -28,33 +30,56 @@ public class LevelManager2Script : MonoBehaviour
         newState = false;
         events = eventManager.GetComponent<EventManager>();
         events.levelStateTrigger.AddListener(levelState);
-        events.droneKilled.AddListener(droneKilled);
         events.spawnDisabled.AddListener(spawnDisabled);
         events.spawnEnabled.AddListener(spawnEnabled);
-        events.buttonPressed.AddListener(ButtonTriggered);
         events.playerDeathTrigger.AddListener(PlayerDeath);
+
+        events.boxPlaced.AddListener(BoxPlaced);
+        events.boxRemoved.AddListener(BoxRemoved);
+
+        events.shootButtonHit.AddListener(ShootButtonHit);
 
         var doorScript = door.GetComponent<doorOpenScript>();
         doorScript.doorToggle = true;
         ChangeLightColor(Color.red);
 
         events.changeBackgroundNoise.Invoke("background", .2f);
+        events.platformMoveTrigger.Invoke(0, 0);
+        events.shootColorSet.Invoke(0);
     }
 
-    
+
+    void ShootButtonHit(int id)
+    {
+        if (platformPos == id)
+            return;
+
+        events.platformMoveTrigger.Invoke(1, id);
+        platformPos = id;
+
+        events.shootColorSet.Invoke(id);
+    }
+
+    void BoxPlaced(int id)
+    {
+        if (id == 1)
+            boxPlaced = true;
+
+        CheckComplete();
+    }
+
+    void BoxRemoved(int id)
+    {
+        if (id == 1)
+            boxPlaced = false;
+    }
+
+
     void PlayerDeath()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
     }
 
-    void ButtonTriggered(int id)
-    {
-        if (id == 1 && state == 1)
-        {
-
-            levelState(2);
-        }
-    }
 
     void ChangeLightColor(Color color)
     {
@@ -77,10 +102,6 @@ public class LevelManager2Script : MonoBehaviour
         }
     }
 
-    void droneKilled(int i)
-    {
-        levelState(3);
-    }
 
     void spawnDisabled(int i)
     {
@@ -90,9 +111,13 @@ public class LevelManager2Script : MonoBehaviour
         if (i == 2)
             spawn2Disabled = true;
 
-        if (spawn1Disabled && spawn2Disabled)
-            levelState(4);
+        CheckComplete();
+    }
 
+    void CheckComplete()
+    {
+        if (spawn1Disabled && spawn2Disabled && boxPlaced)
+            levelState(2);
     }
 
     void spawnEnabled(int i)
@@ -113,21 +138,11 @@ public class LevelManager2Script : MonoBehaviour
             State1();
         else if (state == 2)
             State2();
-        else if (state == 3)
-            State3();
-        else if (state == 4)
-            State4();
-        else if (state == 5)
-            State5();
-        else if (state == 6)
-            State6();
-        else
-            State7();
     }
 
     void State0()
     {
-        
+
     }
 
     //entered room
@@ -135,74 +150,28 @@ public class LevelManager2Script : MonoBehaviour
     {
         if (newState)
         {
-            events.playVoiceLine.Invoke("second1", 1f);
-            newState = false;
-        }
-    }
-
-    void State2()
-    {
-        if (newState)
-        {
+            events.playVoiceLine.Invoke("third1", 1f);
             events.spawnEnabled.Invoke(1);
             events.spawnEnabled.Invoke(2);
             newState = false;
         }
     }
 
-    // 1st drone killed
-    void State3()
-    {
-        if (newState)
-        {
-            events.playVoiceLine.Invoke("second2", 1f);
-            newState = false;
-        }
-    }
 
-    //spawners disabled
-    void State4()
+    // level Complete
+    void State2()
     {
         if (newState)
         {
+            events.playVoiceLine.Invoke("third2", 1f);
+
             var doorScript = door.GetComponent<doorOpenScript>();
             doorScript.doorToggle = true;
 
             ChangeLightColor(Color.green);
 
-            events.playVoiceLine.Invoke("second3", 1f);
             newState = false;
         }
     }
 
-    //entered ele room
-    void State5()
-    {
-        if (newState)
-        {
-            events.playVoiceLine.Invoke("second4", 1f);
-            newState = false;
-        }
-    }
-
-    //entered side room
-    void State6()
-    {
-        if (newState)
-        {
-
-            newState = false;
-        }
-    }
-
-
-    //exit back to elevator
-    void State7()
-    {
-        if (newState)
-        {
-            events.playVoiceLine.Invoke("second5", 1f);
-            newState = false;
-        }
-    }
 }

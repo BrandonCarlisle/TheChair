@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class L2Zone3 : MonoBehaviour
+public class buttonPressed : MonoBehaviour
 {
     public GameObject eventManager;
     private EventManager events;
+
+    public int buttonID;
+
     // Start is called before the first frame update
     void Start()
     {
         events = eventManager.GetComponent<EventManager>();
     }
 
-    private void OnTriggerEnter(Collider collider)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (collider.tag == "Player")
+        if (collision.collider.tag == "Hand")
         {
-            events.levelStateTrigger.Invoke(6);
+            events.playVoiceLine.Invoke("buttonPress", .7f);
+            events.buttonPressed.Invoke(buttonID);
         }
     }
 }

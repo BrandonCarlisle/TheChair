@@ -23,23 +23,37 @@ public class SoundManagerScript : MonoBehaviour
         audio = gameObject.GetComponent<AudioSource>();
 
         var events = eventManager.GetComponent<EventManager>();
-        events.playVoiceLine.AddListener(playVoiceLine);
+        events.playVoiceLine.AddListener(playSound);
         events.playSoundAt.AddListener(PlaySoundAt);
+        events.changeBackgroundNoise.AddListener(ChangeMainAudio);
     }
 
 
-    void playVoiceLine(string name)
+    void playSound(string name, float vol)
     {
         var clip = clips.FirstOrDefault(x => x.name == name);
         if (clip != null)
             audio.PlayOneShot(clip);
     }
 
-    void PlaySoundAt(string name, Vector3 pos)
+    void PlaySoundAt(string name, float vol, Vector3 pos)
     {
         var clip = clips.FirstOrDefault(x => x.name == name);
+       
         if (clip != null)
-            AudioSource.PlayClipAtPoint(clip, pos);
+            AudioSource.PlayClipAtPoint(clip, pos, 1f);
+    }
+
+    void ChangeMainAudio(string name, float vol)
+    {
+        var clip = clips.FirstOrDefault(x => x.name == name);
+        if (clip == null)
+            return;
+
+        audio.clip = clip;
+        audio.loop = true;
+        audio.volume = vol;
+        audio.Play();
     }
 
 

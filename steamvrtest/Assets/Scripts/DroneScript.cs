@@ -38,7 +38,7 @@ namespace Assets.Scripts
         bool flutterUp = true;
 
         bool moving = false;
-        bool playerTargeted = false;
+        bool playerInRange = false;
         int moveTo = 0;
 
         public float shootInterval = 2f;
@@ -67,7 +67,7 @@ namespace Assets.Scripts
 
         public void Hit()
         {
-            events.playSoundAt.Invoke("dronehit", gameObject.transform.position);
+            events.playSoundAt.Invoke("dronehit", 1f, gameObject.transform.position);
 
             healthPoints -= 1;
             if (healthPoints == 0)
@@ -76,13 +76,34 @@ namespace Assets.Scripts
 
         void Shoot()
         {
+            //if (!CheckPlayerLOS())
+            //    return;
+
             shootPoint.transform.LookAt(tempPlayer.transform);
             GameObject bulletObj = Instantiate(bullet, shootPoint.transform.position, shootPoint.transform.rotation) as GameObject;
             bulletObj.GetComponent<Rigidbody>().velocity = (shootPoint.transform.forward * bulletSpeed);
 
-            events.playSoundAt.Invoke("laser2", gameObject.transform.position);
+            events.playSoundAt.Invoke("laser2", .6f, gameObject.transform.position);
 
             Destroy(bulletObj, bulletTime);
+        }
+
+        bool CheckPlayerLOS()
+        {
+            RaycastHit hit;
+            // Does the ray intersect any objects excluding the player layer
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+            {
+                if (hit.collider.gameObject.tag == "playerHitBox")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
         }
 
         void CalcShoot()
@@ -175,18 +196,18 @@ namespace Assets.Scripts
 
             if (dist > 40f)
             {
-                if (playerTargeted)
+                if (playerInRange)
                 {
-                    playerTargeted = false;
+                    playerInRange = false;
 
                 }
             }
             else
             {
-                if (!playerTargeted)
+                if (!playerInRange)
                 {
-                    events.playSoundAt.Invoke("droneAlerted", gameObject.transform.position);
-                    playerTargeted = true;
+                    events.playSoundAt.Invoke("droneAlerted", 1f, gameObject.transform.position);
+                    playerInRange = true;
                 }
             }
         }
@@ -202,7 +223,7 @@ namespace Assets.Scripts
                     var events = eventManager.GetComponent<EventManager>();
                     events.spawnKilled.Invoke(spawnerID);
 
-                    events.playSoundAt.Invoke("droneDeath", gameObject.transform.position);
+                    events.playSoundAt.Invoke("droneDeath", 1f, gameObject.transform.position);
 
                     body.useGravity = true;
                     deathTriggered = true;
@@ -236,7 +257,7 @@ namespace Assets.Scripts
 
 
 
-            if (playerTargeted)
+            if (playerInRange)
             {
                 var targetRotation = Quaternion.LookRotation(tempPlayer.transform.position - transform.position);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 3f * Time.deltaTime);

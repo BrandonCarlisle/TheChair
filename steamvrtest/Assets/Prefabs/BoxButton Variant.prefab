@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!65 &1496859636391404706
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4992512320809906515}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7818636, y: 0.21858248, z: 1.7621965}
+  m_Center: {x: 0.019399723, y: 0.114784084, z: 0.009917578}
 --- !u!1001 &4993218755576422407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9,19 +22,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1000013766447444, guid: 14da78ae98816c74f897e1c51a8c2c5e, type: 3}
       propertyPath: m_Name
-      value: BoxButton
+      value: BoxButton Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4000012975246110, guid: 14da78ae98816c74f897e1c51a8c2c5e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -22.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000012975246110, guid: 14da78ae98816c74f897e1c51a8c2c5e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.167876
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000012975246110, guid: 14da78ae98816c74f897e1c51a8c2c5e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 62.84
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000012975246110, guid: 14da78ae98816c74f897e1c51a8c2c5e, type: 3}
       propertyPath: m_LocalRotation.x
@@ -69,3 +82,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14da78ae98816c74f897e1c51a8c2c5e, type: 3}
+--- !u!1 &4992512320809906515 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000013766447444, guid: 14da78ae98816c74f897e1c51a8c2c5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4993218755576422407}
+  m_PrefabAsset: {fileID: 0}

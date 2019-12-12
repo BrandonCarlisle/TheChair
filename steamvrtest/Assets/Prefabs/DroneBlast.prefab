@@ -16,18 +16,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &8617690693237288653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7448476481642995264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2b3ce51b4bab6f44a8769d26a735052, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &3739448106000193424
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41,6 +29,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.31051642, y: 0.3848059, z: 4.20893}
   m_Center: {x: -0.026190441, y: 0.023576666, z: -0.124954775}
+--- !u!114 &8617690693237288653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7448476481642995264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b3ce51b4bab6f44a8769d26a735052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5684360704554951915
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52,6 +52,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DroneBlast
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007465658012236459, guid: 1e2d4fd693544b54593f0fc839520b8e,
+        type: 3}
+      propertyPath: m_TagString
+      value: droneBlast
       objectReference: {fileID: 0}
     - target: {fileID: 312549357298207321, guid: 1e2d4fd693544b54593f0fc839520b8e,
         type: 3}

@@ -16,7 +16,7 @@ public class Gun : MonoBehaviour
 
     [Tooltip("Set speed of the bullet")]
     [SerializeField]
-    private float m_bulletSpeed = 1.0f;
+    private float m_bulletSpeed = 5.0f;
 
     [Tooltip("How long in seconds the bullet will fly for.")]
     [SerializeField]
@@ -57,6 +57,7 @@ public class Gun : MonoBehaviour
             bullet.GetComponent<Rigidbody>().velocity = -(bullet.transform.forward * m_bulletSpeed);
             //bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * m_bulletSpeed);
 
+            m_bulletSound.volume = .1f;
             m_bulletSound.Play();
 
             Destroy(bullet, m_bulletTravelTime);

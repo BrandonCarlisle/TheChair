@@ -16,8 +16,8 @@ public class L2Zone2 : MonoBehaviour
     {
         if (collider.tag == "Player")
         {
-            events.levelStateTrigger.Invoke(4);
-            events.levelStateTrigger.Invoke(6);
+            events.levelStateTrigger.Invoke(5);
+            events.levelStateTrigger.Invoke(7);
         }
     }
 }

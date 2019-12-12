@@ -17,10 +17,11 @@ public class dronespawnscript : MonoBehaviour
 
     public int spawnerID = 0;
     public float spawnTime = 30f;
-    public bool isDisabled = false;
+    public bool isDisabled = true;
     private float spawnCheckTimer = 0f;
+    public float initalDelay = 0f;
 
-    private bool spawnReady = false;
+    private bool spawnReady = true;
 
     // Start is called before the first frame update
     void Start()
@@ -32,9 +33,13 @@ public class dronespawnscript : MonoBehaviour
         events = eventManager.GetComponent<EventManager>();   
         events.spawnKilled.AddListener(Killed);
         events.spawnDisabled.AddListener(Disabled);
-        events.spawnRenabled.AddListener(Renabled);
+        events.spawnEnabled.AddListener(Enabled);
 
-        Spawn();
+        if (!isDisabled)
+            Spawn();
+        else
+            spawnCheckTimer = spawnTime;
+
     }
 
     void Spawn()
@@ -64,21 +69,22 @@ public class dronespawnscript : MonoBehaviour
             
     }
 
-    void Renabled(int id)
+    void Enabled(int id)
     {
         if (spawnerID == id)
             isDisabled = false;
+        spawnCheckTimer -= initalDelay;
     }
 
     // Update is called once per frame
     void Update()
-    {
+    {     
         if (isDisabled)
             return;
-
-        spawnCheckTimer += Time.deltaTime;
+     
         if (spawnReady)
         {
+            spawnCheckTimer += Time.deltaTime;
             if (spawnCheckTimer >= spawnTime)
                 Spawn();
         }
