@@ -40,21 +40,21 @@ public class DroneDropScript : MonoBehaviour
         var spawnCol = gameObject.GetComponent<BoxCollider>();
         if (spawnCol.bounds.Intersects(collider.bounds))
         {
+            events.spawnDisabled.Invoke(spawnerID);
+            events.playSoundAt.Invoke("placedOn", .5f, gameObject.transform.position);
             var childrends = gameObject.GetComponentsInChildren<Renderer>();
             foreach (var childrend in childrends)
             {
-                events.spawnDisabled.Invoke(spawnerID);
-                events.playSoundAt.Invoke("placedOn", .5f, gameObject.transform.position);
                 childrend.material.color = Color.green;
             }
         }
         else
         {
+            events.spawnEnabled.Invoke(spawnerID);
+            events.playSoundAt.Invoke("placedOff", .5f, gameObject.transform.position);
             var childrends = gameObject.GetComponentsInChildren<Renderer>();
             foreach (var childrend in childrends)
             {
-                events.spawnEnabled.Invoke(spawnerID);
-                events.playSoundAt.Invoke("placedOff", .5f, gameObject.transform.position);
                 childrend.material.color = Color.red;
             }
             

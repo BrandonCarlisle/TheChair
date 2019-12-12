@@ -17,7 +17,7 @@ public class boxButtonScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.tag == "boxItem")
+        if (collider.gameObject.tag == "boxItem")
         {
             CheckState(collider);
         }
@@ -25,7 +25,7 @@ public class boxButtonScript : MonoBehaviour
 
     private void OnTriggerExit(Collider collider)
     {
-        if (collider.tag == "boxItem")
+        if (collider.gameObject.tag == "boxItem")
         {
             CheckState(collider);
         }
@@ -34,23 +34,25 @@ public class boxButtonScript : MonoBehaviour
     private void CheckState(Collider collider)
     {
         var spawnCol = gameObject.GetComponent<BoxCollider>();
+  
         if (spawnCol.bounds.Intersects(collider.bounds))
         {
+            events.boxPlaced.Invoke(boxPlaceID);
+            events.playSoundAt.Invoke("placedOn", .5f, gameObject.transform.position);
+
             var childrends = gameObject.GetComponentsInChildren<Renderer>();
             foreach (var childrend in childrends)
             {
-                events.boxPlaced.Invoke(boxPlaceID);
-                events.playSoundAt.Invoke("placedOn", .5f, gameObject.transform.position);
                 childrend.material.color = Color.green;
             }
         }
         else
         {
+            events.boxRemoved.Invoke(boxPlaceID);
+            events.playSoundAt.Invoke("placedOff", .5f, gameObject.transform.position);
             var childrends = gameObject.GetComponentsInChildren<Renderer>();
             foreach (var childrend in childrends)
             {
-                events.boxRemoved.Invoke(boxPlaceID);
-                events.playSoundAt.Invoke("placedOff", .5f, gameObject.transform.position);
                 childrend.material.color = Color.red;
             }
 
