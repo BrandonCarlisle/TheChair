@@ -21,4 +21,16 @@ public class Play : MonoBehaviour
     {
         SceneManager.LoadScene(4);
     }
+    public void PlayLevel5()
+    {
+        SceneManager.LoadScene(5);
+    }
+    public void PlayLevel6()
+    {
+        SceneManager.LoadScene(6);
+    }
+    public void PlayLevel7()
+    {
+        SceneManager.LoadScene(7);
+    }
 }

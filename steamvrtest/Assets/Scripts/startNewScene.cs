@@ -14,4 +14,14 @@ public class startNewScene : MonoBehaviour
 
         }
     }
+
+
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Hand")
+        {
+            int scene = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(++scene);
+        }
+    }
 }

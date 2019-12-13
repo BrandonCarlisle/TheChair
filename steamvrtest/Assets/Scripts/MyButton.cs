@@ -33,4 +33,19 @@ public class MyButton : MonoBehaviour
            // Debug.Log("------------Button Pressed by Hand");
         }
     }
+
+
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Hand")
+        {
+            if (col.tag == "Hand" && hasBeenPressed == false)
+            {
+                hasBeenPressed = true;
+                var obj = Instantiate(prefab, new Vector3(-6.600503f, 8.054f, 2.155f), Quaternion.identity);
+                events.buttonPressed.Invoke(-1);
+                // Debug.Log("------------Button Pressed by Hand");
+            }
+        }
+    }
 }

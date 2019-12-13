@@ -23,4 +23,14 @@ public class buttonPressed : MonoBehaviour
             events.buttonPressed.Invoke(buttonID);
         }
     }
+
+
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Hand")
+        {
+            events.playVoiceLine.Invoke("buttonPress", .7f);
+            events.buttonPressed.Invoke(buttonID);
+        }
+    }
 }

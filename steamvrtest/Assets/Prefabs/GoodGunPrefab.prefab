@@ -274,7 +274,7 @@ MonoBehaviour:
   m_bulletPrefab: {fileID: 2167368819361141791, guid: d6d266c9410dbc743b7f9edc4e51cf67,
     type: 3}
   m_bulletSpawnLocation: {fileID: 508571543645695647}
-  m_bulletSpeed: 15
+  m_bulletSpeed: 80
   m_bulletTravelTime: 7
   m_bulletSound: {fileID: 508571542705733237}
 --- !u!114 &508571543379997968
