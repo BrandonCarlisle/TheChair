@@ -45,8 +45,8 @@ public class LevelManager3Script : MonoBehaviour
 
      
         events.changeBackgroundNoise.Invoke("background", .2f);
-        events.platformMoveTrigger.Invoke(0, 1);
-        events.shootColorSet.Invoke(0);
+        events.platformMoveTrigger.Invoke(1, 1);
+        events.shootColorSet.Invoke(1);
 
   
     }
@@ -54,9 +54,9 @@ public class LevelManager3Script : MonoBehaviour
 
     void ShootButtonHit(int id)
     {
-        if (platformPos == id)
-            return;
-
+        // if (platformPos == id)
+        //return;
+        Debug.Log("shoot " + id);
         events.platformMoveTrigger.Invoke(1, id);
         platformPos = id;
 
