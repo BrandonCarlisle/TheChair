@@ -32,6 +32,7 @@ public class LevelManager4Script : MonoBehaviour
         events.levelStateTrigger.AddListener(levelState);
         events.spawnDisabled.AddListener(spawnDisabled);
         events.playerDeathTrigger.AddListener(PlayerDeath);
+        events.spawnKilled.AddListener(DroneKilled);
 
         events.shootButtonHit.AddListener(ShootButtonHit);
 
@@ -41,15 +42,19 @@ public class LevelManager4Script : MonoBehaviour
 
 
         events.changeBackgroundNoise.Invoke("background", .2f);
-
     }
 
+
+    void DroneKilled(int id)
+    {
+        levelState(4);
+    }
 
     void ShootButtonHit(int id)
     {
         events.shootColorSet.Invoke(id);
 
-        levelState(4);
+        levelState(3);
     }
 
 
@@ -104,10 +109,6 @@ public class LevelManager4Script : MonoBehaviour
             State3();
         else if (state == 4)
             State4();
-        else if (state == 5)
-            State5();
-        else if (state == 6)
-            State6();
     }
 
     void State0()
@@ -121,8 +122,6 @@ public class LevelManager4Script : MonoBehaviour
         if (newState)
         {
             events.playVoiceLine.Invoke("fourth1", 1f);
-            events.spawnEnabled.Invoke(1);
-            events.spawnEnabled.Invoke(2);
             newState = false;
         }
     }
@@ -132,47 +131,32 @@ public class LevelManager4Script : MonoBehaviour
     {
         if (newState)
         {
-
+            events.playVoiceLine.Invoke("fourth2", 1f);
+            events.changeBackgroundNoise.Invoke("alarm", .15f);
+            newState = false;
         }
     }
 
-    //entered boxroom
+
+    //boxroom Complete
     void State3()
     {
         if (newState)
         {
-
+            events.playVoiceLine.Invoke("fourth3", 1f);
+            var doorScript = door.GetComponent<doorOpenScript>();
+            doorScript.doorToggle = true;
+            newState = false;
         }
-    }
-
-    //boxroom Complete
-    void State4()
-    {
-        if (newState)
-        {
-
-        }
-    }
-
-    //entered droneroom
-    void State5()
-    {
-
     }
 
 
     // level Complete
-    void State6()
+    void State4()
     {
         if (newState)
         {
-            events.playVoiceLine.Invoke("third2", 1f);
-
-            var doorScript = door.GetComponent<doorOpenScript>();
-            doorScript.doorToggle = true;
-
-            ChangeLightColor(Color.green);
-
+            events.playVoiceLine.Invoke("fourth4", 1f);
             newState = false;
         }
     }

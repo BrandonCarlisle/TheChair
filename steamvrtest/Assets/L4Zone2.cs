@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class L4Zone1 : MonoBehaviour
+public class L4Zone2 : MonoBehaviour
 {
     public GameObject eventManager;
     private EventManager events;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +17,7 @@ public class L4Zone1 : MonoBehaviour
     {
         if (collider.tag == "Player")
         {
-            events.levelStateTrigger.Invoke(1);
+            events.levelStateTrigger.Invoke(2);
         }
     }
 }
