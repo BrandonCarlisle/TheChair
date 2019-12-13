@@ -20,6 +20,7 @@ TagManager:
   - droneBlast
   - shootButton
   - boxItem
+  - boxParent
   layers:
   - Default
   - TransparentFX

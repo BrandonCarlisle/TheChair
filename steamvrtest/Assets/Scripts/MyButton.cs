@@ -5,12 +5,15 @@ using Valve.VR;
 using Valve.VR.InteractionSystem;
 public class MyButton : MonoBehaviour
 {
+    public GameObject eventManager;
+    private EventManager events;
+
     public Transform prefab;
     private bool hasBeenPressed = false;
     // Start is called before the first frame update
     void Start()
     {
-        
+        events = eventManager.GetComponent<EventManager>();
     }
 
     // Update is called once per frame
@@ -26,8 +29,8 @@ public class MyButton : MonoBehaviour
         {
             hasBeenPressed = true;
             var obj = Instantiate(prefab, new Vector3(-6.600503f, 8.054f, 2.155f), Quaternion.identity);
-            
-            Debug.Log("------------Button Pressed by Hand");
+            events.buttonPressed.Invoke(-1);
+           // Debug.Log("------------Button Pressed by Hand");
         }
     }
 }

@@ -55,6 +55,7 @@ namespace Assets.Scripts
             body = GetComponent<Rigidbody>();
 
             events = eventManager.GetComponent<EventManager>();
+            events.killDrones.AddListener(KillDrones);
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -63,6 +64,11 @@ namespace Assets.Scripts
             {
                 Hit();
             }
+        }
+
+        void KillDrones()
+        {
+            isDead = true;
         }
 
         public void Hit()

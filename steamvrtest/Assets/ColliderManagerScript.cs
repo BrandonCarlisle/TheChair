@@ -10,15 +10,7 @@ public class ColliderManagerScript : MonoBehaviour
         
     }
 
-    public void makeSmall()
-    {
-        gameObject.transform.localScale = new Vector3(1, 1, 1);
-    }
 
-    public void makeBig()
-    {
-        gameObject.transform.localScale = new Vector3(2, 2, 2);
-    }
 
     //public void DisableColliders()
     //{

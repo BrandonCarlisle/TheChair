@@ -168,6 +168,8 @@ public class LevelManager2Script : MonoBehaviour
             var doorScript = door.GetComponent<doorOpenScript>();
             doorScript.doorToggle = true;
 
+            events.killDrones.Invoke();
+
             ChangeLightColor(Color.green);
 
             events.playVoiceLine.Invoke("second3", 1f);

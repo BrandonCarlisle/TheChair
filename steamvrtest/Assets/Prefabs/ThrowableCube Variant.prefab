@@ -96,10 +96,20 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 4238092500063249865, guid: 5194cdc23035d6b4eb7add65476dbc6a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3814646325505617648, guid: 5194cdc23035d6b4eb7add65476dbc6a,
+        type: 3}
+      propertyPath: m_TagString
+      value: boxItem
+      objectReference: {fileID: 0}
     - target: {fileID: 3768402002686638320, guid: 5194cdc23035d6b4eb7add65476dbc6a,
         type: 3}
       propertyPath: m_Mass
-      value: 5000
+      value: 50000
       objectReference: {fileID: 0}
     - target: {fileID: 3847999834453464882, guid: 5194cdc23035d6b4eb7add65476dbc6a,
         type: 3}
@@ -161,10 +171,15 @@ PrefabInstance:
       propertyPath: onDetachFromHand.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    - target: {fileID: 3814646325505617648, guid: 5194cdc23035d6b4eb7add65476dbc6a,
+    - target: {fileID: 3847999849031481476, guid: 5194cdc23035d6b4eb7add65476dbc6a,
         type: 3}
-      propertyPath: m_TagString
-      value: boxItem
+      propertyPath: onHandHoverBegin.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3847999849031481476, guid: 5194cdc23035d6b4eb7add65476dbc6a,
+        type: 3}
+      propertyPath: onHandHoverEnd.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3792703225465013332, guid: 5194cdc23035d6b4eb7add65476dbc6a,
         type: 3}

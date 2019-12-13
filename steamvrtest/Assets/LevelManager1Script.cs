@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelManager3Script : MonoBehaviour
+public class LevelManager1Script : MonoBehaviour
 {
     public GameObject player;
     public GameObject playerRespawn;
@@ -17,8 +17,7 @@ public class LevelManager3Script : MonoBehaviour
     public int state = 0;
     private bool newState = false;
 
-    private bool spawn1Disabled = false;
-    private bool spawn2Disabled = false;
+
     private bool boxPlaced = false;
 
     private int platformPos = 0;
@@ -30,9 +29,8 @@ public class LevelManager3Script : MonoBehaviour
         newState = false;
         events = eventManager.GetComponent<EventManager>();
         events.levelStateTrigger.AddListener(levelState);
-        events.spawnDisabled.AddListener(spawnDisabled);
-        events.spawnEnabled.AddListener(spawnEnabled);
         events.playerDeathTrigger.AddListener(PlayerDeath);
+        events.buttonPressed.AddListener(ButtonPressed);
 
         events.boxPlaced.AddListener(BoxPlaced);
         events.boxRemoved.AddListener(BoxRemoved);
@@ -43,44 +41,69 @@ public class LevelManager3Script : MonoBehaviour
         doorScript.doorToggle = true;
         ChangeLightColor(Color.red);
 
-     
-        events.changeBackgroundNoise.Invoke("background", .2f);
+        events.shootColorSet.Invoke(1);
+        // events.changeBackgroundNoise.Invoke("background", .2f);
         events.platformMoveTrigger.Invoke(0, 1);
-        events.shootColorSet.Invoke(0);
+        events.platformMoveTrigger.Invoke(2, 0);
+        events.platformMoveTrigger.Invoke(3, 1);
 
-  
+    }
+
+    void BoxPlaced(int id)
+    {
+        if (state == 3)
+        {
+            events.platformMoveTrigger.Invoke(id, 0);
+            levelState(4);
+        }
+        else if (state == 4)
+        {
+            if (id == 2)
+            {
+                events.platformMoveTrigger.Invoke(id, 1);
+            }
+        }
+    }
+
+    void BoxRemoved(int id)
+    {
+        if (state == 4)
+        {
+            if (id == 2)
+            {
+                events.platformMoveTrigger.Invoke(id, 0);
+            }
+            else if (id == 3)
+            {
+                levelState(5);
+            }
+        }
+    } 
+
+    void ButtonPressed(int id)
+    {
+        levelState(2);
     }
 
 
     void ShootButtonHit(int id)
     {
-        if (platformPos == id)
-            return;
-
-        events.platformMoveTrigger.Invoke(1, id);
-        platformPos = id;
-
         events.shootColorSet.Invoke(id);
+
+        if (state == 2)
+            levelState(3);
+
+        if (state > 3)
+        {
+            events.platformMoveTrigger.Invoke(3, id);
+        }
     }
 
-    void BoxPlaced(int id)
-    {
-        if (id == 1)
-            boxPlaced = true;
-
-        CheckComplete();
-    }
-
-    void BoxRemoved(int id)
-    {
-        if (id == 1)
-            boxPlaced = false;
-    }
 
 
     void PlayerDeath()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(4);
     }
 
 
@@ -106,31 +129,6 @@ public class LevelManager3Script : MonoBehaviour
     }
 
 
-    void spawnDisabled(int i)
-    {
-        if (i == 1)
-            spawn1Disabled = true;
-
-        if (i == 2)
-            spawn2Disabled = true;
-
-        CheckComplete();
-    }
-
-    void CheckComplete()
-    {
-        if (spawn1Disabled && spawn2Disabled && boxPlaced)
-            levelState(2);
-    }
-
-    void spawnEnabled(int i)
-    {
-        if (i == 1)
-            spawn1Disabled = false;
-
-        if (i == 2)
-            spawn2Disabled = false;
-    }
 
     // Update is called once per frame
     void Update()
@@ -141,6 +139,13 @@ public class LevelManager3Script : MonoBehaviour
             State1();
         else if (state == 2)
             State2();
+        else if (state == 3)
+            State3();
+        else if (state == 4)
+            State4();
+        else if (state == 5)
+            State5();
+
     }
 
     void State0()
@@ -148,33 +153,56 @@ public class LevelManager3Script : MonoBehaviour
 
     }
 
-    //entered room
+    //entered Game
     void State1()
     {
         if (newState)
         {
-            events.playVoiceLine.Invoke("third1", 1f);
-            events.spawnEnabled.Invoke(1);
-            events.spawnEnabled.Invoke(2);
+            events.playVoiceLine.Invoke("introMain", 1f);
             newState = false;
         }
     }
 
-
-    // level Complete
+    //Button Pressed
     void State2()
     {
         if (newState)
         {
-            events.playVoiceLine.Invoke("third2", 1f);
-
-            var doorScript = door.GetComponent<doorOpenScript>();
-            doorScript.doorToggle = true;
-
-            ChangeLightColor(Color.green);
-
+            events.playVoiceLine.Invoke("intro5", 1f);
             newState = false;
         }
     }
+
+    //Shoot Button Shot
+    void State3()
+    {
+        if (newState)
+        {
+            events.playVoiceLine.Invoke("intro6", 1f);
+            newState = false;
+        }
+    }
+
+    //boxPlaced
+    void State4()
+    {
+        if (newState)
+        {
+            events.playVoiceLine.Invoke("joke1b", 1f);
+            newState = false;
+        }
+    }
+
+    //Level Completed
+    void State5()
+    {
+        var doorScript = door.GetComponent<doorOpenScript>();
+        doorScript.doorToggle = true;
+
+        ChangeLightColor(Color.green);
+
+        newState = false;
+    }
+
 
 }

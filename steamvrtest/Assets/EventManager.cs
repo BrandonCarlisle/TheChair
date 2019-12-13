@@ -46,6 +46,7 @@ public class EventManager : MonoBehaviour
     public MyIntEvent spawnEnabled;
     public MyIntEvent spawnDisabled;
     public MyIntEvent droneKilled;
+    public UnityEvent killDrones;
     public UnityEvent playerDeathTrigger;
     public MyIntEvent boxPlaced;
     public MyIntEvent boxRemoved;
@@ -62,6 +63,8 @@ public class EventManager : MonoBehaviour
     public MySoundAtEvent playSoundAt;
     public MySoundEvent playVoiceLine;
     public MainAudioChangeEvent changeBackgroundNoise;
+    public MainAudioChangeEvent changeSecondaryNoise;
+   
 
     // Start is called before the first frame update
     void Start()
@@ -76,6 +79,8 @@ public class EventManager : MonoBehaviour
             spawnEnabled = new MyIntEvent();
         if (droneKilled == null)
             droneKilled = new MyIntEvent();
+        if (killDrones == null)
+            killDrones = new UnityEvent();
 
         if (boxPlaced == null)
             boxPlaced = new MyIntEvent();
@@ -102,6 +107,8 @@ public class EventManager : MonoBehaviour
             playVoiceLine = new MySoundEvent();
         if (changeBackgroundNoise == null)
             changeBackgroundNoise = new MainAudioChangeEvent();
+        if (changeSecondaryNoise == null)
+            changeSecondaryNoise = new MainAudioChangeEvent();
     }
 
     // Update is called once per frame
