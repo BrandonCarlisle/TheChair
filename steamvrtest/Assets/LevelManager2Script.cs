@@ -192,7 +192,7 @@ public class LevelManager2Script : MonoBehaviour
     {
         if (newState)
         {
-
+            events.changeBackgroundNoise.Invoke("horror", 1f);
             newState = false;
         }
     }
@@ -203,6 +203,8 @@ public class LevelManager2Script : MonoBehaviour
     {
         if (newState)
         {
+            events.changeBackgroundNoise.Invoke("background", .2f);
+            events.playVoiceLine.Invoke("powerOn", 1f);
             events.playVoiceLine.Invoke("second5", 1f);
             newState = false;
         }
